@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+html, body {
+    height: 100%;
+    width: 100%;
+}
+.my-header {
+    background: #43cea2;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #185a9d, #43cea2);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #185a9d, #43cea2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+#logo {
+    font: italic 2em Georgia, serif;
+    color: white;
+}
+.my-container {
+    height: 100%;
+    width: 100%;
+}
+.my-toolbar {
+    top: 6%;
+    left: 20%;
+    position: absolute;
+}
+.my-content {
+    height: 100%;
+    width: 100%;
+    float: left;
+    background: url("../image/background.jpg") no-repeat;
+    background-size: cover;
+}
+#pane {
+    top: 10%;
+    left: 20%;
+    display: block;
+    border: 2px solid black;
+    background-color: white;
+    position: absolute;
+}
+.invisible {
+    filter: alpha(opacity = 0);
+    opacity: 0;
+    width: 0;
+    height: 0;
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>画板</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="../static/js/pencil.js"></script>
+    <script src="../static/js/eraser.js"></script>
+    <script src="../static/js/tag.js"></script>
+    <script src="../static/js/import-img.js"></script>
+    <script src="../static/js/export-img.js"></script>
+    <script src="../static/js/drawing-board.js"></script>
+    <link href="../static/css/drawing-board.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"
+          crossorigin="anonymous">
+</head>
+<script type="text/javascript">
+    if (typeof FileReader == "undefined")
+        alert("当前浏览器不支持图片导入导出，请更换浏览器");
+    $(function () {
+        initDrawingBoard();
+    });
+</script>
+<body>
+<div class="my-container">
+    <!--文件选择器不做展示，只用于获取本地文件路径-->
+    <input id="fileSelector" class="invisible" type="file"/>
+    <div class="my-header">
+        <span id="logo">Drawing Online</span>
+    </div>
+    <div class="my-toolbar">
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group btn-group-sm" role="group">
+                <button id="pencil" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-pencil">Pencil</span>
+                </button>
+                <button id="eraser" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-erase">Eraser</span>
+                </button>
+                <button id="tag" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-tags">Tag</span>
+                </button>
+                <button id="clear" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-trash">Clear</span>
+                </button>
+            </div>
+            <div class="btn-group btn-group-sm" role="group">
+                <button id="import-img" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-download-alt">Import</span>
+                </button>
+                <button id="export-img" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-picture">Export</span>
+                </button>
+            </div>
+            <div class="btn-group btn-group-sm" role="group">
+                <button id="load" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-folder-open">Load</span>
+                </button>
+                <button id="save" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-save-file">Save</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="my-content">
+        <canvas id="pane">当前浏览器不支持canvas，请更换浏览器</canvas>
+    </div>
+</div>
+</body>
+</html>
