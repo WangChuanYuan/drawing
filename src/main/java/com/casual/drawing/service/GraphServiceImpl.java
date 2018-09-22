@@ -9,6 +9,6 @@ public class GraphServiceImpl implements GraphService {
 
     @Override
     public Image detectShape(String base64Str) {
-        return ShapeDetector.detectImg(base64Str);
+        return ShapeDetector.detectShapesInImg(base64Str);
     }
 }

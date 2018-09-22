@@ -7,7 +7,8 @@ var eraser = function (canvasId) {
     var mousedown = false;
     var ERASER_RADIUS = 15;
 
-    context.globalCompositeOperation = "destination-out"; //设置原图像覆盖目标图像，且原图像为透明可以实现橡皮擦效果
+    //设置原图像覆盖目标图像，且原图像为透明可以实现橡皮擦效果
+    //context.globalCompositeOperation = "destination-out";
 
     $(canvasId).unbind("mousedown").mousedown(function (ev) {
         ev.preventDefault();

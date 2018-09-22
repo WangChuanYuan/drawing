@@ -13,7 +13,7 @@ public class ShapeDetector {
 
     private static Scalar shapeColor(Shape shape) {
         Scalar scalar = null;
-        switch (shape){
+        switch (shape) {
             case UNDEFINED:
                 scalar = new Scalar(0, 0, 0); //黑色
                 break;
@@ -36,7 +36,7 @@ public class ShapeDetector {
         return scalar;
     }
 
-    private static Shape detectShape(MatOfPoint mp, MatOfPoint2f mp2f) {
+    private static Shape detectShapeByContour(MatOfPoint mp, MatOfPoint2f mp2f) {
         Shape shape;
         double peri = Imgproc.arcLength(mp2f, true);
         //对图像轮廓点进行多边形拟合
@@ -54,7 +54,7 @@ public class ShapeDetector {
             float height = rect.height;
             float ar = width / height;
             //计算宽高比，判断是矩形还是正方形
-            if (ar >= 0.9 && ar <= 1.05) {
+            if (ar >= 0.85 && ar <= 1.1) {
                 shape = Shape.SQUARE;
             } else {
                 shape = Shape.RECTANGLE;
@@ -67,7 +67,7 @@ public class ShapeDetector {
         return shape;
     }
 
-    public static Image detectImg(String base64Str) {
+    public static Image detectShapesInImg(String base64Str) {
         if (Base64Util.transToImage(base64Str)) {
             //读入图片
             Mat image = Imgcodecs.imread(Const.TEMP_IMG);
@@ -84,10 +84,11 @@ public class ShapeDetector {
             Mat hierarchy = new Mat();
             Imgproc.findContours(threshImg, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
             //进行轮廓描边区分不同形状
-            Mat resImg = image.clone();
+            //新建一张原图大小的白底图像
+            Mat resImg = new Mat(image.rows(), image.cols(), CvType.CV_8UC3, new Scalar(255, 255, 255));
             for (int i = 0; i < contours.size(); i++) {
                 MatOfPoint2f matOfPoint2f = new MatOfPoint2f(contours.get(i).toArray());
-                Shape shape = detectShape(contours.get(i), matOfPoint2f);
+                Shape shape = detectShapeByContour(contours.get(i), matOfPoint2f);
                 Imgproc.drawContours(resImg, contours, i, shapeColor(shape), 2, 8, hierarchy);
             }
             Imgcodecs.imwrite(Const.TEMP_IMG, resImg);
