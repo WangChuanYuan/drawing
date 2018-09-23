@@ -11,30 +11,14 @@ import java.util.List;
 
 public class ShapeDetector {
 
-    private static Scalar shapeColor(Shape shape) {
-        Scalar scalar = null;
-        switch (shape) {
-            case UNDEFINED:
-                scalar = new Scalar(0, 0, 0); //黑色
-                break;
-            case TRIANGLE:
-                scalar = new Scalar(0, 255, 255); //黄色
-                break;
-            case SQUARE:
-                scalar = new Scalar(0, 255, 0); //绿色
-                break;
-            case RECTANGLE:
-                scalar = new Scalar(255, 0, 0); //蓝色
-                break;
-            case POLYGON:
-                scalar = new Scalar(0, 0, 0); //黑色
-                break;
-            case CIRCLE:
-                scalar = new Scalar(0, 0, 255); //红色
-                break;
-        }
-        return scalar;
-    }
+    private static Scalar[] colorTable = new Scalar[]{
+            new Scalar(0, 0, 0), //黑色 UNDEFINED
+            new Scalar(0, 255, 255), //黄色 TRIANGLE
+            new Scalar(0, 255, 0), //绿色 SQUARE
+            new Scalar(255, 0, 0), //蓝色 RECTANGLE
+            new Scalar(0, 0, 0), //黑色 POLYGON
+            new Scalar(0, 0, 255), //红色 CIRCLE
+    };
 
     private static Shape detectShapeByContour(MatOfPoint mp, MatOfPoint2f mp2f) {
         Shape shape;
@@ -89,7 +73,7 @@ public class ShapeDetector {
             for (int i = 0; i < contours.size(); i++) {
                 MatOfPoint2f matOfPoint2f = new MatOfPoint2f(contours.get(i).toArray());
                 Shape shape = detectShapeByContour(contours.get(i), matOfPoint2f);
-                Imgproc.drawContours(resImg, contours, i, shapeColor(shape), 2, 8, hierarchy);
+                Imgproc.drawContours(resImg, contours, i, colorTable[shape.ordinal()], 2, 8, hierarchy);
             }
             Imgcodecs.imwrite(Const.TEMP_IMG, resImg);
         }
