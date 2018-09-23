@@ -1,4 +1,4 @@
-package com.casual.drawing.entity;
+package com.casual.drawing.vo;
 
 public enum Shape {
     UNDEFINED, TRIANGLE, SQUARE, RECTANGLE, POLYGON, CIRCLE

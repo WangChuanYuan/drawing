@@ -5,7 +5,7 @@ var tag = function (canvasId) {
     var base64Str = pane.toDataURL("image/png");
 
     $.ajax({
-        url: "/detectShape",
+        url: "/detect_shapes",
         type: "post",
         dataType: "json",
         scriptCharset: "utf-8",
@@ -20,7 +20,7 @@ var tag = function (canvasId) {
             }
         },
         error: function (error) {
-            console.log("error");
+            console.log("detect error");
         }
     })
 };

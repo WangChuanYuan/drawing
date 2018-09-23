@@ -28,7 +28,6 @@ public class Base64Util {
         BASE64Decoder decoder = new BASE64Decoder();
         try {
             //Base64解码
-            base64Str = base64Str.replace(" ", "+").substring(base64Str.indexOf(",") + 1);
             byte[] b = decoder.decodeBuffer(base64Str);
             for (int i = 0; i < b.length; ++i) {
                 if (b[i] < 0) {//调整异常数据

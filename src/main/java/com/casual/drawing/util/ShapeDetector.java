@@ -1,7 +1,7 @@
 package com.casual.drawing.util;
 
-import com.casual.drawing.entity.Image;
-import com.casual.drawing.entity.Shape;
+import com.casual.drawing.vo.ImageVO;
+import com.casual.drawing.vo.Shape;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
@@ -67,7 +67,7 @@ public class ShapeDetector {
         return shape;
     }
 
-    public static Image detectShapesInImg(String base64Str) {
+    public static ImageVO detectShapesInImg(String base64Str) {
         if (Base64Util.transToImage(base64Str)) {
             //读入图片
             Mat image = Imgcodecs.imread(Const.TEMP_IMG);
@@ -93,6 +93,6 @@ public class ShapeDetector {
             }
             Imgcodecs.imwrite(Const.TEMP_IMG, resImg);
         }
-        return new Image(Base64Util.transToBase64(Const.TEMP_IMG));
+        return new ImageVO(Base64Util.transToBase64(Const.TEMP_IMG));
     }
 }

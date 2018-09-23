@@ -10,6 +10,9 @@
     <script src="../static/js/tag.js"></script>
     <script src="../static/js/import-img.js"></script>
     <script src="../static/js/export-img.js"></script>
+    <script src="../static/js/save-as.js"></script>
+    <script src="../static/js/save.js"></script>
+    <script src="../static/js/load.js"></script>
     <script src="../static/js/drawing-board.js"></script>
     <link href="../static/css/drawing-board.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"
@@ -29,6 +32,7 @@
     <div class="my-header">
         <span id="logo">Drawing Online</span>
     </div>
+    <!--工具栏，提供画板的工具-->
     <div class="my-toolbar">
         <div class="btn-toolbar" role="toolbar">
             <div class="btn-group btn-group-sm" role="group">
@@ -55,8 +59,11 @@
                 </button>
             </div>
             <div class="btn-group btn-group-sm" role="group">
-                <button id="load" type="button" class="btn btn-default">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#load">
                     <span class="glyphicon glyphicon-folder-open">Load</span>
+                </button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#save-as">
+                    <span class="glyphicon glyphicon-file">Save as</span>
                 </button>
                 <button id="save" type="button" class="btn btn-default">
                     <span class="glyphicon glyphicon-save-file">Save</span>
@@ -64,8 +71,49 @@
             </div>
         </div>
     </div>
+    <!--画板-->
     <div class="my-content">
         <canvas id="pane">当前浏览器不支持canvas，请更换浏览器</canvas>
+    </div>
+    <!--另存为和读取的模态框-->
+    <div id="save-as" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">保存当前画布内容</h4>
+                </div>
+                <div class="modal-body">
+                    <input id="save-as-input" type="text" class="form-control" placeholder="输入图片名称"/>
+                </div>
+                <div class="modal-footer">
+                    <button id="save-as-confirm" type="button" class="btn btn-default">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="load" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">选取已保存的图片</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">图片
+                                <span class="caret"></span></button>
+                            <ul id="load-items" class="dropdown-menu"></ul>
+                        </div>
+                        <input id="load-input" type="text" readonly="readonly" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="load-confirm" type="button" class="btn btn-default">确认</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>
