@@ -25,14 +25,14 @@ public class ShapeDetector {
         double peri = Imgproc.arcLength(mp2f, true);
         //对图像轮廓点进行多边形拟合
         MatOfPoint2f polyShape = new MatOfPoint2f();
-        Imgproc.approxPolyDP(mp2f, polyShape, 0.01 * peri, true);
+        Imgproc.approxPolyDP(mp2f, polyShape, 0.04 * peri, true);
         int shapeLen = polyShape.toArray().length;
         //根据轮廓凸点拟合结果，判断属于什么形状
         if (shapeLen < 3)
             shape = Shape.UNDEFINED;
         else if (shapeLen == 3)
             shape = Shape.TRIANGLE;
-        else if (4 <= shapeLen && shapeLen <= 6) {
+        else if (shapeLen == 4) {
             Rect rect = Imgproc.boundingRect(mp);
             float width = rect.width;
             float height = rect.height;
@@ -57,12 +57,13 @@ public class ShapeDetector {
             Mat image = Imgcodecs.imread(Const.TEMP_IMG);
             //模糊图像
             Mat blurredImg = image.clone();
-            Imgproc.GaussianBlur(image, blurredImg, new Size(3, 3), 0);
-            //二值化图像，彩色图像转灰度图像
+            Imgproc.GaussianBlur(image, blurredImg, new Size(5, 5), 0);
+            //二值化图像，彩色图像转灰度图像，再进行阈值化处理
             Mat grayImg = blurredImg.clone();
             Imgproc.cvtColor(blurredImg, grayImg, Imgproc.COLOR_BGR2GRAY);
             Mat threshImg = grayImg.clone();
-            Imgproc.adaptiveThreshold(grayImg, threshImg, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY_INV, 25, 10);
+            //反向二值化处理，大于150设置为0(黑色),小于150设置为255(白色)
+            Imgproc.threshold(grayImg, threshImg, 150, 255, Imgproc.THRESH_BINARY_INV);
             //寻找轮廓
             List<MatOfPoint> contours = new ArrayList<>();
             Mat hierarchy = new Mat();
