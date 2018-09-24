@@ -16,7 +16,6 @@ public class ShapeDetector {
             new Scalar(0, 255, 255), //黄色 TRIANGLE
             new Scalar(0, 255, 0), //绿色 SQUARE
             new Scalar(255, 0, 0), //蓝色 RECTANGLE
-            new Scalar(0, 0, 0), //黑色 POLYGON
             new Scalar(0, 0, 255), //红色 CIRCLE
     };
 
@@ -28,25 +27,27 @@ public class ShapeDetector {
         Imgproc.approxPolyDP(mp2f, polyShape, 0.04 * peri, true);
         int shapeLen = polyShape.toArray().length;
         //根据轮廓凸点拟合结果，判断属于什么形状
-        if (shapeLen < 3)
-            shape = Shape.UNDEFINED;
-        else if (shapeLen == 3)
-            shape = Shape.TRIANGLE;
-        else if (shapeLen == 4) {
-            Rect rect = Imgproc.boundingRect(mp);
-            float width = rect.width;
-            float height = rect.height;
-            float ar = width / height;
-            //计算宽高比，判断是矩形还是正方形
-            if (ar >= 0.85 && ar <= 1.1) {
-                shape = Shape.SQUARE;
-            } else {
-                shape = Shape.RECTANGLE;
-            }
-        } else {
-            if (shapeLen > 8)
-                shape = Shape.CIRCLE;
-            else shape = Shape.POLYGON;
+        switch (shapeLen) {
+            case 3:
+                shape = Shape.TRIANGLE;
+                break;
+            case 4:
+                Rect rect = Imgproc.boundingRect(mp);
+                float width = rect.width;
+                float height = rect.height;
+                float ar = width / height;
+                //计算宽高比，判断是矩形还是正方形
+                if (ar >= 0.85 && ar <= 1.1) {
+                    shape = Shape.SQUARE;
+                } else {
+                    shape = Shape.RECTANGLE;
+                }
+                break;
+            default:
+                if (shapeLen < 3)
+                    shape = Shape.UNDEFINED;
+                else shape = Shape.CIRCLE;
+                break;
         }
         return shape;
     }
