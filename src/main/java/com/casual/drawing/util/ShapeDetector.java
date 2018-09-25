@@ -13,7 +13,7 @@ public class ShapeDetector {
 
     private static Scalar[] colorTable = new Scalar[]{
             new Scalar(0, 0, 0), //黑色 UNDEFINED
-            new Scalar(0, 255, 255), //黄色 TRIANGLE
+            new Scalar(0, 128, 128), //橄榄色 TRIANGLE
             new Scalar(0, 255, 0), //绿色 SQUARE
             new Scalar(255, 0, 0), //蓝色 RECTANGLE
             new Scalar(0, 0, 255), //红色 CIRCLE
@@ -63,8 +63,8 @@ public class ShapeDetector {
             Mat grayImg = blurredImg.clone();
             Imgproc.cvtColor(blurredImg, grayImg, Imgproc.COLOR_BGR2GRAY);
             Mat threshImg = grayImg.clone();
-            //反向二值化处理，大于150设置为0(黑色),小于150设置为255(白色)
-            Imgproc.threshold(grayImg, threshImg, 150, 255, Imgproc.THRESH_BINARY_INV);
+            //反向二值化处理，大于220设置为0(黑色),小于220设置为255(白色)
+            Imgproc.threshold(grayImg, threshImg, 220, 255, Imgproc.THRESH_BINARY_INV);
             //寻找轮廓
             List<MatOfPoint> contours = new ArrayList<>();
             Mat hierarchy = new Mat();
