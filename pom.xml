@@ -55,12 +55,26 @@
 			<groupId>org.opencv</groupId>
 			<artifactId>opencv</artifactId>
 			<version>3.4.3</version>
-			<systemPath>C:/opencv/build/java/opencv-343.jar</systemPath>
+			<systemPath>${project.basedir}/opencv/opencv-343.jar</systemPath>
 			<scope>system</scope>
 		</dependency>
 	</dependencies>
 
 	<build>
+        <!--打jar包时包含第三方jar-->
+        <resources>
+            <resource>
+                <directory>opencv</directory>
+                <targetPath>BOOT-INF/lib/</targetPath>
+                <includes>
+                    <include>**/*.jar</include>
+                </includes>
+            </resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<targetPath>BOOT-INF/classes/</targetPath>
+			</resource>
+        </resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -70,6 +84,22 @@
 					<includeSystemScope>true</includeSystemScope>
 				</configuration>
 			</plugin>
+			<!--打war包时包含第三方包-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-war-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<webResources>-->
+                        <!--<resource>-->
+                            <!--<directory>opencv</directory>-->
+                            <!--<targetPath>WEB-INF/lib</targetPath>-->
+							<!--<includes>-->
+								<!--<include>**/*.jar</include>-->
+							<!--</includes>-->
+                        <!--</resource>-->
+                    <!--</webResources>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
 			<!--mvn package 时跳过测试-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

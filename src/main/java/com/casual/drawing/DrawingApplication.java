@@ -1,5 +1,6 @@
 package com.casual.drawing;
 
+import org.opencv.core.Core;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -13,7 +14,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 public class DrawingApplication extends SpringBootServletInitializer{
 
 	static {
-		System.load("C:/opencv/build/java/x64/opencv_java343.dll");
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 	}
 
 	@Override
