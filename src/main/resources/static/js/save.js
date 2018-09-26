@@ -1,3 +1,9 @@
+/**
+ * 保存图片
+ * @param canvasId 画板id
+ * @param imgName 图片名
+ * @public
+ */
 var save = function (canvasId, imgName) {
     var pane = $(canvasId)[0];
     var base64Str = pane.toDataURL("image/png");

@@ -1,5 +1,9 @@
+/**
+ * 画笔功能
+ * @param canvasId 画布id
+ * @public
+ */
 var pencil = function (canvasId) {
-
     var pane = $(canvasId)[0];
     var context = pane.getContext("2d");
     var mousedown = false;

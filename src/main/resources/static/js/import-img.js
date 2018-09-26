@@ -1,3 +1,9 @@
+/**
+ * 导出图片
+ * @param canvasId 画布id
+ * @param fileInputId 文件输入器id
+ * @public
+ */
 var importImg = function (canvasId, fileInputId) {
     var pane = $(canvasId)[0];
     var context = pane.getContext("2d");

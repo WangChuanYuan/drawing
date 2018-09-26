@@ -17,16 +17,7 @@ public class Base64Util {
      * @return base64码
      */
     public static String transToBase64(String imgPath) {
-        InputStream inputStream;
-        byte[] data = null;
-        try {
-            inputStream = new FileInputStream(imgPath);
-            data = new byte[inputStream.available()];
-            inputStream.read(data);
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        byte[] data = FileUtil.readFileAsBytes(imgPath);
         BASE64Encoder encoder = new BASE64Encoder();
         return encoder.encode(data);
     }
@@ -36,29 +27,24 @@ public class Base64Util {
      * @param base64Str base64码
      * @return 转换结果
      */
-    public static boolean transToImage(String base64Str) {
+    public static boolean transToImage(String base64Str, String imgPath) {
         if (base64Str == null || base64Str.length() == 0)
             return false;
         BASE64Decoder decoder = new BASE64Decoder();
         try {
             //Base64解码
-            byte[] b = decoder.decodeBuffer(base64Str);
-            for (int i = 0; i < b.length; ++i) {
-                if (b[i] < 0) {//调整异常数据
-                    b[i] += 256;
+            byte[] data = decoder.decodeBuffer(base64Str);
+            for (int i = 0; i < data.length; ++i) {
+                if (data[i] < 0) {//调整异常数据
+                    data[i] += 256;
                 }
             }
             //生成图片
-            File img = new File(Const.TEMP_IMG);
-            if (!img.getParentFile().exists())
-                img.getParentFile().mkdirs();
-            OutputStream out = new FileOutputStream(Const.TEMP_IMG);
-            out.write(b);
-            out.flush();
-            out.close();
-            return true;
+            return FileUtil.writeBytesToFile(data, imgPath);
         } catch (IOException e) {
+            e.printStackTrace();
             return false;
         }
     }
+
 }

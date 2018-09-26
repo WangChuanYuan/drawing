@@ -21,7 +21,7 @@ public class ShapeDetector {
     private static Scalar[] colorTable = new Scalar[]{
             new Scalar(0, 0, 0), //黑色 UNDEFINED
             new Scalar(0, 128, 128), //橄榄色 TRIANGLE
-            new Scalar(0, 255, 0), //绿色 SQUARE
+            new Scalar(240, 32, 160), //紫色 SQUARE
             new Scalar(255, 0, 0), //蓝色 RECTANGLE
             new Scalar(0, 0, 255), //红色 CIRCLE
     };
@@ -29,8 +29,9 @@ public class ShapeDetector {
     /**
      * 通过图形的轮廓判断形状
      */
-    private static Shape detectShapeByContour(MatOfPoint mp, MatOfPoint2f mp2f) {
+    private static Shape detectShapeByContour(MatOfPoint contour) {
         Shape shape;
+        MatOfPoint2f mp2f = new MatOfPoint2f(contour.toArray());
         double peri = Imgproc.arcLength(mp2f, true);
         //对图像轮廓点进行多边形拟合
         MatOfPoint2f polyShape = new MatOfPoint2f();
@@ -42,7 +43,7 @@ public class ShapeDetector {
                 shape = Shape.TRIANGLE;
                 break;
             case 4:
-                Rect rect = Imgproc.boundingRect(mp);
+                Rect rect = Imgproc.boundingRect(contour);
                 float width = rect.width;
                 float height = rect.height;
                 float ar = width / height;
@@ -69,7 +70,7 @@ public class ShapeDetector {
      */
     public static ImageVO detectShapesInImg(String base64Str) {
         String res = "";
-        if (Base64Util.transToImage(base64Str)) {
+        if (Base64Util.transToImage(base64Str, Const.TEMP_IMG)) {
             //读入图片
             Mat image = Imgcodecs.imread(Const.TEMP_IMG);
             //模糊图像
@@ -79,8 +80,8 @@ public class ShapeDetector {
             Mat grayImg = blurredImg.clone();
             Imgproc.cvtColor(blurredImg, grayImg, Imgproc.COLOR_BGR2GRAY);
             Mat threshImg = grayImg.clone();
-            //反向二值化处理，大于220设置为0(黑色),小于220设置为255(白色)
-            Imgproc.threshold(grayImg, threshImg, 220, 255, Imgproc.THRESH_BINARY_INV);
+            //反向二值化处理，大于150设置为0(黑色),小于150设置为255(白色)
+            Imgproc.threshold(grayImg, threshImg, 150, 255, Imgproc.THRESH_BINARY_INV);
             //寻找轮廓
             List<MatOfPoint> contours = new ArrayList<>();
             Mat hierarchy = new Mat();
@@ -89,8 +90,7 @@ public class ShapeDetector {
             //新建一张原图大小的白底图像
             Mat resImg = new Mat(image.rows(), image.cols(), CvType.CV_8UC3, new Scalar(255, 255, 255));
             for (int i = 0; i < contours.size(); i++) {
-                MatOfPoint2f matOfPoint2f = new MatOfPoint2f(contours.get(i).toArray());
-                Shape shape = detectShapeByContour(contours.get(i), matOfPoint2f);
+                Shape shape = detectShapeByContour(contours.get(i));
                 Imgproc.drawContours(resImg, contours, i, colorTable[shape.ordinal()], 2, 8, hierarchy);
             }
             Imgcodecs.imwrite(Const.TEMP_IMG, resImg);

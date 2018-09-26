@@ -1,3 +1,10 @@
+/**
+ * 图片另存为
+ * @param canvasId 画布id
+ * @param imgName 图片名
+ * @param modalId 模态框id
+ * @public
+ */
 var saveAs = function (canvasId, imgName, modalId) {
     var pane = $(canvasId)[0];
     var base64Str = pane.toDataURL("image/png");

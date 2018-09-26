@@ -1,4 +1,11 @@
-function load(canvasId, imgName, modalId) {
+/**
+ * 加载图片
+ * @param canvasId 画布id
+ * @param imgName 图片名
+ * @param modalId 模态框id
+ * @public
+ */
+var load = function(canvasId, imgName, modalId) {
     var pane = $(canvasId)[0];
     var context = pane.getContext("2d");
 
@@ -28,9 +35,14 @@ function load(canvasId, imgName, modalId) {
             console.log("load img error");
         }
     })
-}
+};
 
-function getAllImgNames() {
+/**
+ *
+ * @returns {Array}
+ * @private
+ */
+function _getAllImgNames() {
     var images = [];
     $.ajax({
         url: "/get_all_imgnames",
