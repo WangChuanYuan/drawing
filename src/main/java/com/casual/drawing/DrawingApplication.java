@@ -9,6 +9,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 /**
  * @author 王川源
  * Spring Boot启动类
+ * 同时加载opencv的动态链接库
  */
 @SpringBootApplication
 public class DrawingApplication extends SpringBootServletInitializer{

@@ -9,8 +9,15 @@ import org.opencv.imgproc.Imgproc;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author 王川源
+ * 负责处理图像的检测
+ */
 public class ShapeDetector {
 
+    /**
+     * 图形的颜色表
+     */
     private static Scalar[] colorTable = new Scalar[]{
             new Scalar(0, 0, 0), //黑色 UNDEFINED
             new Scalar(0, 128, 128), //橄榄色 TRIANGLE
@@ -19,6 +26,9 @@ public class ShapeDetector {
             new Scalar(0, 0, 255), //红色 CIRCLE
     };
 
+    /**
+     * 通过图形的轮廓判断形状
+     */
     private static Shape detectShapeByContour(MatOfPoint mp, MatOfPoint2f mp2f) {
         Shape shape;
         double peri = Imgproc.arcLength(mp2f, true);
@@ -52,7 +62,13 @@ public class ShapeDetector {
         return shape;
     }
 
+    /**
+     * 检测图像中的所有图形，并根据形状高亮显示
+     * @param base64Str 原图像的base64码
+     * @return 处理后的图像
+     */
     public static ImageVO detectShapesInImg(String base64Str) {
+        String res = "";
         if (Base64Util.transToImage(base64Str)) {
             //读入图片
             Mat image = Imgcodecs.imread(Const.TEMP_IMG);
@@ -78,7 +94,8 @@ public class ShapeDetector {
                 Imgproc.drawContours(resImg, contours, i, colorTable[shape.ordinal()], 2, 8, hierarchy);
             }
             Imgcodecs.imwrite(Const.TEMP_IMG, resImg);
+            res = Base64Util.transToBase64(Const.TEMP_IMG);
         }
-        return new ImageVO(Base64Util.transToBase64(Const.TEMP_IMG));
+        return new ImageVO(res);
     }
 }

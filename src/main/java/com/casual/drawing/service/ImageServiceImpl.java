@@ -11,17 +11,32 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * @author 王川源
+ * 图像相关的Service实现
+ */
 @Service
 public class ImageServiceImpl implements ImageService {
 
     @Autowired
     private ImageDAO imageDAO;
 
+    /**
+     * 检测图片中的图形，并高亮显示
+     * @param base64Str 原图像的base64码
+     * @return 处理后的图像
+     */
     @Override
     public ImageVO detectShapes(String base64Str) {
         return ShapeDetector.detectShapesInImg(base64Str);
     }
 
+    /**
+     * 存储图像
+     * @param imgName 图像名
+     * @param base64Str 图像的base64码
+     * @return 处理结果
+     */
     @Override
     public ResultMessage saveImg(String imgName, String base64Str) {
         if (imageDAO.existsById(imgName))
@@ -32,6 +47,12 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
+    /**
+     * 修改原图像
+     * @param imgName 图像名
+     * @param base64Str 图像的base64码
+     * @return 处理结果
+     */
     @Override
     public ResultMessage modifyImg(String imgName, String base64Str) {
         if (!imageDAO.existsById(imgName))
@@ -45,6 +66,11 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
+    /**
+     * 通过图像名查找图像
+     * @param imgName 图像名
+     * @return 符合条件的图像
+     */
     @Override
     public ImageVO getImgByName(String imgName) {
         if (imageDAO.existsById(imgName)) {
@@ -53,6 +79,10 @@ public class ImageServiceImpl implements ImageService {
         } else return null;
     }
 
+    /**
+     * 获得存储的所有图像名
+     * @return 图像名集合
+     */
     @Override
     public List<String> getAllImgNames() {
         return imageDAO.getAllImgNames();
